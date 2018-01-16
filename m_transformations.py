@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import smoothing as s
 
 def openIm (img, name):
     #img = cv2.imread('img/2 Copy.tif')
@@ -11,19 +12,20 @@ def openIm (img, name):
     #res = cv2.bitwise_and(img, img, mask=mask)
     #mask = np.zeros(img.shape, dtype="uint8")
 
-    kernel = np.ones((250, 1), np.uint8)
+    kernel = np.ones((200, 5), np.uint8)
     opening = cv2.morphologyEx(thresh2, cv2.MORPH_OPEN, kernel)
-
+    #blur = cv2.blur(opening, (50, 5))
     #cv2.imshow('Original', img)
-    #cv2.imshow('Opening', opening)
+    #cv2.imshow('Blurred', blur)
     return opening
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
 
 for i in range(16):
     print(i)
-    img =openIm(cv2.imread('img/' + str(i) + '.tif'), str(i))
-    cv2.imshow(str(i),img)
+    img = openIm(cv2.imread('img/' + str(i) + '.tif'), str(i))
+    #cv2.imshow(str(i), img)
+    cv2.imwrite('processed/' + str(i) + '.tif', img)
     cv2.waitKey(0)
 cv2.destroyAllWindows()
 
