@@ -19,6 +19,7 @@ def transform(path):
         bar.update(j)
         print(i)
         img = openIm(cv2.imread(str(i)), j)
+        
         j += 1
         cv2.imwrite('processed/' + str(j) + '.tif', img)
 

@@ -12,8 +12,8 @@ threshold = 0.1
 loc = np.where(res >= threshold)
 
 for pt in zip(*loc[::-1]):
-    cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,255,255), 2)
+    cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 255, 255), 2)
 
 
-cv2.imshow('Detected',img_rgb)
+cv2.imshow('Detected', img_rgb)
 cv2.waitKey(0)

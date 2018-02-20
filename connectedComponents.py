@@ -70,7 +70,7 @@ def connected(image):
             cv2.line(image, (int(cX), 0), (int(cX), height), (255, 0, 0), 5)
 
     # return the output image
-    cv2.imshow("stuff",image)
+    cv2.imshow("stuff", image)
     cv2.waitKey(0)
     return image
 
