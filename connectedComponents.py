@@ -70,15 +70,11 @@ def connected(image):
             cv2.line(image, (int(cX), 0), (int(cX), height), (255, 0, 0), 5)
 
     # return the output image
-    cv2.imshow("stuff", image)
-    cv2.waitKey(0)
     return image
 
 
-#for i in range(1, 96):
-#    img = cv2.imread("processed/" + str(i) + ".tif")
-#    cv2.imwrite("connected/" + str(i) + ".tif", connected(img))
-#img = cv2.imread("processed/1.tif")
-img = cv2.imread("largest connected/67.tif")
-connected(img)
+for i in range(1, 95):
+    img = cv2.imread("processed scaled/" + str(i) + ".tif")
+    cv2.imwrite("connected scaled/" + str(i) + ".tif", connected(img))
+
 
