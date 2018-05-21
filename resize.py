@@ -15,6 +15,6 @@ def resize(image):
     resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
     return resized
 
-for i in range(2, 96):
-    img = cv2.imread("img/" + str(i) + ".tif")
-    cv2.imwrite("scaled img/" + str(i) + ".tif", resize(img))
+for i in range(1, 95):
+    img = cv2.imread("largest connected/" + str(i) + ".tif")
+    cv2.imwrite("scaled after largest connected/" + str(i) + ".tif", resize(img))
