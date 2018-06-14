@@ -1,9 +1,6 @@
 import cv2
 import itertools
 import networkx as nx
-import m_transformations as m
-from scipy import misc
-from scipy.sparse import csr_matrix
 from scipy.sparse.dok import dok_matrix
 from scipy.sparse.csgraph import dijkstra,shortest_path
 from sklearn.feature_extraction import image
@@ -12,9 +9,9 @@ from matplotlib import patches
 import numpy as np
 
 # Load the image from disk as a numpy ndarray
-original_img = cv2.imread('d_test/16.tif')
+original_img = cv2.imread('d_test/24.tif')
 # Create a flat color image for graph building:
-img = cv2.imread('d_test/16.tif', 0)#original_img[:, :, 0] + original_img[:, :, 1] + original_img[:, :, 2]
+img = cv2.imread('d_test/24.tif', 0)
 
 
 # Defines a translation from 2 coordinates to a single number, y = height x = width
@@ -36,10 +33,14 @@ adjacency = dok_matrix((img.shape[0] * img.shape[1], img.shape[0] * img.shape[1]
 directions = list(itertools.product([0, 1, -1], [0, 1, -1]))
 height, width, channels = original_img.shape
 #G2 = nx.complete_graph(height * width)
+
+#We create a graph the size of our image
 G2 = nx.DiGraph()
 for i in range(width*height):
     G2.add_node(i)
-print(width*height)
+
+#These loops create the nodes and the edges between them, the rules are: White pixel to white pixel: lowest cost
+#White to black and black to black: significantly higher cost, node to itself: highest cost to prevemt loops.
 for i in range(0, height):
     for j in range(0, width):
         for y_diff, x_diff in directions:
@@ -63,24 +64,10 @@ for i in range(0, height):
             """if i == j:
                 #adjacency[to_index(i, j), to_index(i, j)] = 255
                 G2.add_edge(to_index(i, j), to_index(i + y_diff, j + x_diff), weight=255)"""
-#print(adjacency[6, 5])
-#print(adjacency)
 
-#img2 = img.copy()
-#img2[img == 255] = 130
-#print(original_img)
-
-#adjacency = image.img_to_graph(img2)
-#G = nx.from_numpy_matrix(A, create_using=nx.DiGraph())
-#scipy.sparse.save_npz('d_test/sparse_matrix.npz', adjacency)
-#nx.draw_networkx(G)
-#nodes=nx.draw_networkx_nodes(G, pos=nx.spring_layout(G))
-#edges=nx.draw_networkx_edges(G,pos=nx.spring_layout(G))
-#edge_labels=nx.draw_networkx_edge_labels(G, pos=nx.spring_layout(G))
-#draw_adjacency_matrix(G)
 # We chose two arbitrary points, which we know are connected
-source = to_index(0, int((width/2)*0.25))
-target = to_index(height-1, int((width/2)*0.25))
+source = to_index(1, int((width/2))*0.25)
+target = to_index(height-1, int((width/2))*0.25)
 
 print(to_index(height-1, int((width/2)*0.25)))
 #m = adjacency.todense()
@@ -129,6 +116,6 @@ for pixel_index in pixels_path:
         original_img[i, j, 0] = original_img[i, j, 1] = 5
     except IndexError:
         break
-cv2.imwrite("d_test/img_with_path_weighted_directed_7.tif", original_img)
+cv2.imwrite("d_test/Final Test/img_with_path_weighted_directed_11.tif", original_img)
 #plt.imshow(original_img)
 plt.show()

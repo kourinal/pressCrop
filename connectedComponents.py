@@ -39,7 +39,7 @@ def connected(image):
         # if the number of pixels in the component is sufficiently
         # large, then add it to our mask of "large blobs"
 
-        if numPixels > 200:
+        if numPixels > 100:
             mask = cv2.add(mask, labelMask)
 
     # find the contours in the mask, then sort them from left to
@@ -48,9 +48,10 @@ def connected(image):
                             cv2.CHAIN_APPROX_SIMPLE)
     cnts = cnts[0] if imutils.is_cv2() else cnts[1]
     cnts = contours.sort_contours(cnts)[0]
-
     # loop over the contours
+
     for (i, c) in enumerate(cnts):
+
         rect = cv2.minAreaRect(c)
         box = cv2.boxPoints(rect)
         box = np.int0(box)
@@ -58,23 +59,28 @@ def connected(image):
 
         # draw the bright spot on the image
         (x, y, w, h) = cv2.boundingRect(c)
-        #cv2.imshow("rec", img)
-        #cv2.waitKey(0)
+        if w < width*0.60 or h < height*0.60:
+            continue
+        cv2.imshow("rec", img)
+        cv2.waitKey(0)
         cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
         ((cX, cY), radius) = cv2.minEnclosingCircle(c)
-        if height/2 > radius >= height*0.25:
+        """if height/2 > radius >= height*0.25:
             cv2.circle(image, (int(cX), int(cY)), int(radius),
                        (0, 0, 255), 3)
             cv2.putText(image, "#{}".format(i + 1), (x, y - 15),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
-            cv2.line(image, (int(cX), 0), (int(cX), height), (255, 0, 0), 5)
+            cv2.line(image, (int(cX), 0), (int(cX), height), (255, 0, 0), 5)"""
 
     # return the output image
     return image
 
 
-for i in range(1, 95):
+"""for i in range(1, 95):
     img = cv2.imread("processed scaled/" + str(i) + ".tif")
-    cv2.imwrite("connected scaled/" + str(i) + ".tif", connected(img))
+    cv2.imwrite("connected scaled/" + str(i) + ".tif", connected(img))"""
 
-
+img = cv2.imread("fourier/8_opening.tif")
+#cv2.imwrite("fourier/fourier_connected5_blob100px.tif", connected(img))
+cv2.imshow("Connetected", connected(img))
+cv2.waitKey(0)

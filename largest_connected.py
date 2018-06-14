@@ -17,10 +17,15 @@ def undesired_objects(image):
 
     img2 = np.zeros(output.shape)
     img2[output == max_label] = 255
+    cv2.imshow("img", img)
+    cv2.waitKey(0)
     return img2
 
 
-for i in range(1, 95):
+"""for i in range(1, 95):
     img = cv2.imread("processed scaled/" + str(i) + ".tif")
-    cv2.imwrite("largest connected scaled/" + str(i) + ".tif", undesired_objects(img))
-
+    cv2.imwrite("largest connected scaled/" + str(i) + ".tif", undesired_objects(img))"""
+img = cv2.imread("fourier/test1_150px.tif")
+cv2.imshow("img",img)
+cv2.waitKey(0)
+cv2.imwrite("fourier/fourier_largest_connected.tif",undesired_objects(img))
