@@ -122,7 +122,11 @@ def findShortest(image, original_image):
     #plt.show()
     return original_img
 
-for i in range(1, 95):
-    img = cv2.imread("largest connected scaled/" + str(i) + ".tif", 0)
-    original_image = cv2.imread("processed scaled/" + str(i) + ".tif")
-    cv2.imwrite("d_test/Final Test/" + str(i) + ".tif", findShortest(img, original_image))
+
+'''img = cv2.imread("Histogram/cropped_edges1.tif", 0)
+original_image = cv2.imread("Histogram/cropped_edges1.tif")
+cv2.imwrite("Histogram/cropped_edges_path1.tif", findShortest(img, original_image))'''
+for i in range(1, 93):
+    img = cv2.imread("Histogram/" + str(i) + ".tif", 0)
+    original_image = cv2.imread("Histogram/" + str(i) + ".tif")
+    cv2.imwrite("Cropped Path/" + str(i) + ".tif", findShortest(img, original_image))
